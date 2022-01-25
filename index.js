@@ -2,7 +2,8 @@ const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { token } = require('./config.json');
 
-const client = new Client({ intents: [
+
+ global.client = new Client({ intents: [
 	Intents.FLAGS.GUILDS,
 	Intents.FLAGS.GUILD_MEMBERS,
 	Intents.FLAGS.GUILD_MESSAGES,
@@ -11,7 +12,7 @@ const client = new Client({ intents: [
 	Intents.FLAGS.GUILD_PRESENCES,
 	
 ] });
-
+client.queue= new Map();
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
@@ -46,4 +47,5 @@ client.on('interactionCreate', async interaction => {
 });
 
 client.login(token);
+
 
