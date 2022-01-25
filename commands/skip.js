@@ -12,12 +12,7 @@ module.exports = {
         else
             {
                 interaction.reply(`${player.queue[0].title} has been skipped.`);
-                player.player.un
-                player.queue.shift();
-                player.player.pause();
-                //player.connection.subscribe(player.player).unsubscribe();
-                //setTimeout(()=>playing(),5_000)
-                playing();
+                player.player.stop();
             }
 		return
 	},

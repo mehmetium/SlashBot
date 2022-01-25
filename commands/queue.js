@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('queue')
-		.setDescription('Restarts song'),
+		.setDescription('Shows songs in queue'),
 	async execute(interaction) {
         const player=interaction.client.queue.get(interaction.guildId)
         let str="";
