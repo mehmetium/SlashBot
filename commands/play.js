@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { createAudioPlayer,createAudioResource,joinVoiceChannel } = require('@discordjs/voice');
 const { ytkey } = require('../config.json');
 const ytdl = require('ytdl-core');
-const { YTSearcher } = require('ytsearcher');
+const ytsr = require('ytsr');
 
   let serverPlayer={};
  
@@ -14,19 +14,19 @@ module.exports = {
         .addStringOption(option => option.setName('song').setDescription('Search song name or URL')),
 	async execute(interaction) {
         let serverQueue=interaction.client.queue.get(interaction.guildId);
-    
+
         if(!interaction.member.voice.channel){
             return interaction.reply(`Please join a voice channel.`);
+        }else if(interaction.options.getString('song')==null){
+            return interaction.reply(`No can do`)
         }else{
-            const searcher= new YTSearcher({
-                key: ytkey,
-                revealkey: true,
-            });
-            let result = await searcher.search(interaction.options.getString('song'),{type: 'video', maxResults: 1});
-            const songInfo = await ytdl.getInfo(result.first.url);
+            
+            interaction.reply(`Processing`)
+            let result = await ytsr(interaction.options.getString('song'),{limit: 1}).catch(error =>console.log("oof"));
+
             let song={
-                title: songInfo.videoDetails.title,
-                url: songInfo.videoDetails.video_url
+                title: result.items[0].title,
+                url: result.items[0].url
             };
 
             if(!serverQueue){
@@ -64,17 +64,23 @@ module.exports = {
     
             if(serverPlayer.queue.length<2){
                 this.playing();
-                return interaction.reply(`${song.url} now playing`);
+                return interaction.editReply(`${song.url} now playing`);
             }else{
-                return interaction.reply(`${song.url} has been added to queue.`);
+                return interaction.editReply(`${song.url} has been added to queue.`);
             }
         }
         
 	},async playing(){
-        const stream=ytdl(serverPlayer.queue[0].url,{filter:'audioonly'});
-        const source=createAudioResource(stream);
-        serverPlayer.player.play(source);
-        const conc=serverPlayer.connection;
-        conc.subscribe(serverPlayer.player);
+        try {
+            const stream=ytdl(serverPlayer.queue[0].url,{filter:'audioonly'});
+            const source=createAudioResource(stream);
+            serverPlayer.player.play(source);
+            const conc=serverPlayer.connection;
+            conc.subscribe(serverPlayer.player);
+        } catch (error) {
+            return console.log(error)
+            
+        }
+       
     }
 };
