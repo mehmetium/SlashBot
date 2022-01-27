@@ -11,7 +11,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('play')
 		.setDescription('Plays a song')
-        .addStringOption(option => option.setName('song').setDescription('Search song name or URL')),
+        .addStringOption(option => option.setName('song').setDescription('Search song name or URL').setRequired(true)),
 	async execute(interaction) {
         let serverQueue=interaction.client.queue.get(interaction.guildId);
 

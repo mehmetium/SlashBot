@@ -5,6 +5,7 @@ module.exports = {
 		.setName('restart')
 		.setDescription('Restarts song'),
 	async execute(interaction) {
+		const player=interaction.client.queue.get(interaction.guildId)	
 		playing();
 		return interaction.reply("Restarting song");
 	},
