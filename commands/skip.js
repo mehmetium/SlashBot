@@ -21,7 +21,9 @@ module.exports = {
                     player.queue.shift();
                     count++
                 }
-                interaction.reply(`${count} skipped.\nNow playing ${player.queue[1].title}`);
+        
+                interaction.reply(`${count} skipped.\n${player.player.state.status.toUpperCase()} ${player.queue[1].title}`);
+    
                 player.player.stop();
             }
 		return

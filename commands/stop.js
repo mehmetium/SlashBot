@@ -9,6 +9,7 @@ module.exports = {
 		player.connection.destroy();
 		player.connection=null;
 		player.queue=[];
+		player.player.unpause();
 		return interaction.reply("Aight imma head out");
 	},
 };

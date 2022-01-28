@@ -21,9 +21,8 @@ const {getData,getPreview,getTracks}=require('spotify-url-info');
    
 }
 function outputter(interaction,playlist,spotify,spotList){
-    
     if(playlist!=null){
-        if(serverPlayer.player.state.status!='playing'){
+        if(serverPlayer.player.state.status!='playing'&&serverPlayer.player.state.status!='paused'){
             playing();
                 return interaction.editReply(`Playlist ${playlist.title} now playing`);
   
@@ -33,7 +32,7 @@ function outputter(interaction,playlist,spotify,spotList){
         }
     } 
     if(spotList!=null){
-        if(serverPlayer.player.state.status!='playing'){
+        if(serverPlayer.player.state.status!='playing'&&serverPlayer.player.state.status!='paused'){
             playing();
                 return interaction.editReply(`Playlist ${spotList} now playing`);
   

@@ -10,7 +10,7 @@ module.exports = {
         return interaction.reply('No more songs mate.');
         else
         {
-            str=`Now playing ${player.queue[0].title}\n`
+            str=`${player.player.state.status.toUpperCase()} ${player.queue[0].title}\n`
             str+=`----- QUEUE -----`
             const result=player.queue.length>11?11:player.queue.length
             for (let index = 1; index < result; index++) {
