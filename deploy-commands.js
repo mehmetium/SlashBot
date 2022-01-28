@@ -15,11 +15,11 @@ for (const file of commandFiles) {
 const rest = new REST({ version: '9' }).setToken(token);
 
 
-// specific guild
+// specific test guild
 
-// rest.put(Routes.applicationGuildCommands(clientId,guildId), { body: commands })
-// 	.then(() => console.log('Successfully registered application commands.'))
-// 	.catch(console.error);
+rest.put(Routes.applicationGuildCommands(clientId,guildId), { body: commands })
+	.then(() => console.log('Successfully registered application commands.'))
+	.catch(console.error);
 
 // global
 
