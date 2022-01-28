@@ -11,13 +11,14 @@ module.exports = {
         else
         {
             str=`Now playing ${player.queue[0].title}\n`
-            console.log(player.queue)
-            
-            for (let index = 1; index < player.queue.length; index++) {
-                str+=`\n${index}. ${player.queue[index].title}`
-                
+            str+=`----- QUEUE -----`
+            const result=player.queue.length>11?11:player.queue.length
+            for (let index = 1; index < result; index++) {
+                    str+=`\n${index}. ${player.queue[index].title}`
             }
         }
+        if(player.queue.length>11)  
+        str+=`\n----- ${player.queue.length-10} more songs ----`
     return interaction.reply(str)
 	},
 };
