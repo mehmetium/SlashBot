@@ -68,7 +68,7 @@ module.exports = {
         .addStringOption(option => option.setName('song').setDescription('Search song name or URL').setRequired(true)),
 	async execute(interaction) {
         let serverQueue=interaction.client.queue.get(interaction.guildId);
-        const input=interaction.options.getString('song');
+        let input=interaction.options.getString('song');
 
         if(!interaction.member.voice.channel){
             return interaction.reply(`Please join a voice channel.`);
@@ -139,6 +139,8 @@ module.exports = {
                     spotifyTrack= await getPreview(input);
                     result = await ytsr(`${spotifyTrack.artist} ${spotifyTrack.title}`,{limit: 1}).catch(error =>console.log("oof"));
                 }else{
+                    if(input.includes('&ab_channel'))
+                        input=input.slice(0,input.indexOf('&ab_channel'))
                     result = await ytsr(input,{limit: 1}).catch(error =>console.log("oof"));
                 }
                 let song={
