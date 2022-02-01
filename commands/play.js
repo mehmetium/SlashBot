@@ -1,10 +1,9 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { createAudioPlayer,createAudioResource,joinVoiceChannel } = require('@discordjs/voice');
-const { ytkey } = require('../config.json');
 const ytdl = require('ytdl-core');
 const ytsr = require('ytsr');
 const ytpl = require('ytpl');
-const {getData,getPreview,getTracks}=require('spotify-url-info');
+const {getPreview,getTracks}=require('spotify-url-info');
 
   let serverPlayer={};
   function playing(){
@@ -103,8 +102,6 @@ module.exports = {
                     adapterCreator:interaction.guild.voiceAdapterCreator,
                 })
             }
-            
-            //non-robust check for playlist!!
             if(input.includes('&list=')){
                 const playlist= await ytpl(input,{limit:Infinity}).catch(error=>{return console.log('Playlist error')});
                 playlist.items.forEach(element => {
@@ -139,8 +136,7 @@ module.exports = {
                     spotifyTrack= await getPreview(input);
                     result = await ytsr(`${spotifyTrack.artist} ${spotifyTrack.title}`,{limit: 1}).catch(error =>console.log("oof"));
                 }else{
-                    if(input.includes('&ab_channel'))
-                        input=input.slice(0,input.indexOf('&ab_channel'))
+                    input=input.replace(/\&ab_channel(.*)/,'');
                     result = await ytsr(input,{limit: 1}).catch(error =>console.log("oof"));
                 }
                 let song={
@@ -153,6 +149,5 @@ module.exports = {
         
             interaction.client.queue.set(interaction.guildId,serverPlayer);
         }
-	},
-    playing
+	}
 };

@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { playing }=require('./play.js')
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('shuffle')
@@ -12,7 +11,6 @@ module.exports = {
             {
                 const array=player.queue.slice(0);
                 array.shift();
-                    //Fisher-Yates
         let currentIndex=array.length,randomIndex;
 
         while(currentIndex!=0){
