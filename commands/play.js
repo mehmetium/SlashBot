@@ -72,7 +72,7 @@ module.exports = {
           if (serverPlayer.queue.length === 0) {
             serverPlayer.connection.destroy();
             serverPlayer.connection = null;
-          } else { this.playing(); }
+          } else { playing(); }
         }
       });
     } else if (!serverPlayer.connection) {
