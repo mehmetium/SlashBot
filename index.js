@@ -3,7 +3,7 @@
 /* eslint-disable no-restricted-syntax */
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
-const { token } = require('./config.json');
+// const { token } = require('./config.json');
 
 global.client = new Client({
   intents: [
@@ -47,4 +47,4 @@ global.client.on('interactionCreate', async (interaction) => {
   }
 });
 
-global.client.login(token);
+global.client.login(process.env.token);
