@@ -7,7 +7,10 @@ const { getPreview, getTracks } = require('spotify-url-info');
 
 let serverPlayer = {};
 function playing() {
-  const stream = ytdl(serverPlayer.queue[0].url, { filter: 'audioonly', type: 'opus' });
+  const stream = ytdl(serverPlayer.queue[0].url, {
+    // eslint-disable-next-line no-bitwise
+    filter: 'audioonly', type: 'opus', quality: 'highestaudio', highWaterMark: 1 << 25,
+  });
   const source = createAudioResource(stream);
   serverPlayer.player.play(source);
   const conc = serverPlayer.connection;
